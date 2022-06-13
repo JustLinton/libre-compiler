@@ -1,2 +1,2 @@
-g++ complier.cpp -o compiler
+g++ compiler.cpp -o compiler
 ./compiler
