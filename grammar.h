@@ -52,6 +52,9 @@ fstream in;//输入文件
 fstream out;//输出文件
 string line;//读入的一行数据
 
+fstream gtable_output("output/gtable.txt", ios::out | ios::trunc); // 符号表
+fstream target_output("output/target.s", ios::out | ios::trunc); // 符号表
+
 struct Pcode {  //目标代码
 	int f;//功能码
 	int l;//层次差
@@ -233,8 +236,9 @@ void printPcode()   //输出中间代码
 {
     for (int i = 0; i < cx; i++)
     {    
-    	cout << i << " ";
-		printf("%s %d %d\n", order[Pcode[i].f].c_str(), Pcode[i].l, Pcode[i].a);//调用.c_str()打印string字符串 
+    	// cout << i << " ";
+		// printf("%s %d %d\n", order[Pcode[i].f].c_str(), Pcode[i].l, Pcode[i].a);//调用.c_str()打印string字符串 
+        target_output<<order[Pcode[i].f].c_str()<<'\t'<<Pcode[i].l<<'\t'<<Pcode[i].a<<endl;
 	}
 }
 
@@ -243,8 +247,9 @@ void printTable()  //输出符号表
     int i = 1;
     while(SymTable[i].num)
     {
-		printf("名称:%s   类型:%d   数值:%d   层次:%d   相对地址:%d    出现次数:%d\n",
-        SymTable[i].name.c_str(), SymTable[i].type, SymTable[i].value,SymTable[i].level, SymTable[i].adr, SymTable[i].num);
+		// printf("名称:%s   类型:%d   数值:%d   层次:%d   相对地址:%d    出现次数:%d\n",
+        // SymTable[i].name.c_str(), SymTable[i].type, SymTable[i].value,SymTable[i].level, SymTable[i].adr, SymTable[i].num);
+        gtable_output<< SymTable[i].name.c_str()<<'\t'<< SymTable[i].type<<'\t'<< SymTable[i].value<<'\t'<<SymTable[i].level<<'\t'<<SymTable[i].adr<<'\t'<<SymTable[i].num<<endl;
         i++;    
     }
 }
@@ -1403,13 +1408,21 @@ void CloseFile()
 {
     in.close();
     out.close();
+    gtable_output.close();
+    target_output.close();
 }
 
-int GA()
+int grammar_main()
 {
 //	LA();
     OpenFile();
 	Prog();
+
+    if(!gtable_output.is_open()||!target_output.is_open())
+    {
+        cout << "failed to output table or target." << endl;
+        exit(2);
+    }
 	
     int count = 0; //记录未被使用的变量个数
 	int i = 1;
@@ -1429,25 +1442,31 @@ int GA()
 	}
 
 	Pcode[INT_pos].a -= count;     //回填INT指令开辟的空间数，一边扫描之后，解释器之前
-	cout << "是否输出中间代码:1 or 0" << endl;
-	int flag;
-	cin >> flag;
-	if (flag)
-	{
-		printPcode();
-	}
-	cout << "是否输出符号表:1 or 0" << endl;
-	cin >> flag;
-	if (flag)
-	{
-		printTable();
-		cout << endl;
-	}
+
+    printPcode();
+    printTable();
+
+	// cout << "是否输出中间代码:1 or 0" << endl;
+	// int flag;
+	// cin >> flag;
+	// if (flag)
+	// {
+	// 	printPcode();
+	// }
+	// cout << "是否输出符号表:1 or 0" << endl;
+	// cin >> flag;
+	// if (flag)
+	// {
+	// 	printTable();
+	// 	cout << endl;
+	// }
+
+    
 	if(!error) 
     	interpreter(); 
     else
     {
-    	cout << "此程序存在错误，不进行解释器解释！" << endl; 
+    	cout << "Failed to compile. Can not excute the target program." << endl; 
 	}
     CloseFile();
 	return 0;

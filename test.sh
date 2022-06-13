@@ -1,2 +1,2 @@
-g++ compiler.cpp -o compiler
-./compiler
+g++ main.cpp -o plc
+./plc input/code0.txt

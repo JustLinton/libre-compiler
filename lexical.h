@@ -6,7 +6,8 @@
 
 using namespace std;
 
-FILE *fp = fopen("la_input.txt", "r");
+
+FILE *fp;
 fstream output("output/lex.txt", ios::out | ios::trunc); // 写文件;
 
 /**  
@@ -87,8 +88,9 @@ void Retract(char ch)
     }
 }
 
-int LA()
+int lexical_main(const char* input_file)
 {
+    fp = fopen(input_file, "r");
     if(!fp){
         cout << "输入文件打开失败" << endl;
         exit(1);
