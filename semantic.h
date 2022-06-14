@@ -44,47 +44,47 @@ public:
     }
 };
 
-Unit unit, last_unit;//µ±Ç°É¨ÃèºÍÉÏÒ»´ÎÉ¨Ãè
-stack<int> errorStack;//´æ·Å´íÎó
-bool error = false;//´íÎó±êÖ¾
+Unit unit, last_unit;//ï¿½ï¿½Ç°É¨ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½É¨ï¿½ï¿½
+stack<int> errorStack;//ï¿½ï¿½Å´ï¿½ï¿½ï¿½
+bool error = false;//ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
 
-fstream in;//ÊäÈëÎÄ¼þ
-fstream out;//Êä³öÎÄ¼þ
-string line;//¶ÁÈëµÄÒ»ÐÐÊý¾Ý
+fstream in;//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+fstream out;//ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+string line;//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-fstream gtable_output("output/gtable.txt", ios::out | ios::trunc); // ·ûºÅ±í
-fstream target_output("output/target.s", ios::out | ios::trunc); // ·ûºÅ±í
+fstream gtable_output("output/gtable.txt", ios::out | ios::trunc); // ï¿½ï¿½ï¿½Å±ï¿½
+fstream target_output("output/target.s", ios::out | ios::trunc); // ï¿½ï¿½ï¿½Å±ï¿½
 
-struct Pcode {  //Ä¿±ê´úÂë
-	int f;//¹¦ÄÜÂë
-	int l;//²ã´Î²î
-	int a;//¸ù¾Ý²»Í¬µÄÖ¸ÁîÓÐËùÇø±ð
+struct Pcode {  //Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½
+	int f;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int l;//ï¿½ï¿½Î²ï¿½
+	int a;//ï¿½ï¿½ï¿½Ý²ï¿½Í¬ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }Pcode[MAX_N];
 
-struct SymTable {  //·ûºÅ±í
+struct SymTable {  //ï¿½ï¿½ï¿½Å±ï¿½
 	string name;
 	int type;//const=0, var=1, procedure=2
 	int value;
 	int level;
 	int adr;
 	int size;
-	int num;    //±äÁ¿ÔÚ³ÌÐò³öÏÖµÄ´ÎÊý£¬·½±ãÄÚ´æÓÅ»¯
+	int num;    //ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½Å»ï¿½
 }SymTable[MAX_N];
 
-int tx = 0;// tableµÄÏÂ±êÖ¸Õë,·ûºÅ±íµØÖ·´Ó1¿ªÊ¼
-int dx = 0;// ¼ÆËãÃ¿¸ö±äÁ¿ÔÚÔËÐÐÕ»ÖÐÏà¶Ô±¾¹ý³Ì»ùµØÖ·µÄÆ«ÒÆÁ¿
-int cx = 0;// Ö¸ÁîÏÂÒ»¸öµØÖ·
+int tx = 0;// tableï¿½ï¿½ï¿½Â±ï¿½Ö¸ï¿½ï¿½,ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½Ö·ï¿½ï¿½1ï¿½ï¿½Ê¼
+int dx = 0;// ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½
+int cx = 0;// Ö¸ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ö·
 int lev = 0;
-int dataStack[MAX_N]; //Êý¾ÝÕ»
-int T;//Õ»¶¥¼Ä´æÆ÷
-int B;//Õ»»ùÖ·¼Ä´æÆ÷
-int P;//ÏÂÌõÖ¸Áî
-int I;//Ö¸Áî¼Ä´æÆ÷
-int INT_pos;// ¼ÇÂ¼Ö¸ÁîINTµÄÎ»ÖÃ
+int dataStack[MAX_N]; //ï¿½ï¿½ï¿½ï¿½Õ»
+int T;//Õ»ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
+int B;//Õ»ï¿½ï¿½Ö·ï¿½Ä´ï¿½ï¿½ï¿½
+int P;//ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
+int I;//Ö¸ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
+int INT_pos;// ï¿½ï¿½Â¼Ö¸ï¿½ï¿½INTï¿½ï¿½Î»ï¿½ï¿½
 
 
-//-----------º¯ÊýÉùÃ÷----------------//
-void test(int type);// ÕÒÍ¬²½
+//-----------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½----------------//
+void test(int type);// ï¿½ï¿½Í¬ï¿½ï¿½
 void addError(int type, string name = "");
 void ReadLine();
 void Factor();
@@ -104,22 +104,22 @@ void Prog();
 void OpenFile();
 void CloseFile();
 
-void gen(int f, int l, int a);   //²úÉúp´úÂë
-void addVar(string name, int level, int adr);    //½«±äÁ¿µÇÈëµ½·ûºÅ±í
-void addConst(string name, int level, int val);   //½«³£Á¿µÇÈëµ½·ûºÅ±í
-void addProcedure(string name, int level, int adr);  //½«¹ý³ÌµÇÈëµ½·ûºÅ±í
-int position(string name);  //ÔÚ·ûºÅ±í²éÕÒÃû×ÖÎªnameµÄ·ûºÅ
-bool is_the_same_level(string name, int lev);   //ÊÇ·ñÔÚÍ¬²ã
+void gen(int f, int l, int a);   //ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½
+void addVar(string name, int level, int adr);    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½Å±ï¿½
+void addConst(string name, int level, int val);   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½Å±ï¿½
+void addProcedure(string name, int level, int adr);  //ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ëµ½ï¿½ï¿½ï¿½Å±ï¿½
+int position(string name);  //ï¿½Ú·ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªnameï¿½Ä·ï¿½ï¿½ï¿½
+bool is_the_same_level(string name, int lev);   //ï¿½Ç·ï¿½ï¿½ï¿½Í¬ï¿½ï¿½
 bool is_pre_level(string name, int lev); // 
 int stringtoint(string str);
 int findproc(int pos);
 int getBase(int nowBp, int lev);
-void printPcode();   //Êä³öÖÐ¼ä´úÂë
-void printTable();  //Êä³ö·ûºÅ±í
+void printPcode();   //ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½
+void printTable();  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½
 void interpreter();
 
 
-//-----------º¯Êý¶¨Òå----------------//
+//-----------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½----------------//
 
 void gen(int f, int l, int a)
 {
@@ -174,7 +174,7 @@ int position(string name)
 	return -1;
 }
 
-bool is_the_same_level(string name, int lev)//ÊÇ·ñÔÚÍ¬²ã
+bool is_the_same_level(string name, int lev)//ï¿½Ç·ï¿½ï¿½ï¿½Í¬ï¿½ï¿½
 {    
 
 	for (int i = 1; i <= tx; i++)
@@ -209,7 +209,7 @@ int stringtoint(string str)
     return res;
 }
 
-int findproc(int pos) // Ñ°ÕÒ¹ý³Ì
+int findproc(int pos) // Ñ°ï¿½Ò¹ï¿½ï¿½ï¿½
 {
     for (int i = pos; i >= 1; i--)
 	{
@@ -221,34 +221,34 @@ int findproc(int pos) // Ñ°ÕÒ¹ý³Ì
 	return -1;
 }
 
-int getBase(int nowBp, int lev)    //¸ù¾Ý²ã²îµÃµ½»ùµØÖ·
+int getBase(int nowBp, int lev)    //ï¿½ï¿½ï¿½Ý²ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Ö·
 { 
 	int oldBp = nowBp;
-	while(lev > 0)//µ±´æÔÚ²ã²îÊ±Ñ°ÕÒ·Ç¾Ö²¿±äÁ¿
+	while(lev > 0)//ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ê±Ñ°ï¿½Ò·Ç¾Ö²ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
-		oldBp = dataStack[oldBp + 1];//Ö±½ÓÍâ²ãµÄ»î¶¯¼ÇÂ¼Ê×µØÖ·
+		oldBp = dataStack[oldBp + 1];//Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Ä»î¶¯ï¿½ï¿½Â¼ï¿½×µï¿½Ö·
 		lev--;
 	}
 	return oldBp;
 }
 
-void printPcode()   //Êä³öÖÐ¼ä´úÂë
+void printPcode()   //ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½
 {
     for (int i = 0; i < cx; i++)
     {    
     	// cout << i << " ";
-		// printf("%s %d %d\n", order[Pcode[i].f].c_str(), Pcode[i].l, Pcode[i].a);//µ÷ÓÃ.c_str()´òÓ¡string×Ö·û´® 
+		// printf("%s %d %d\n", order[Pcode[i].f].c_str(), Pcode[i].l, Pcode[i].a);//ï¿½ï¿½ï¿½ï¿½.c_str()ï¿½ï¿½Ó¡stringï¿½Ö·ï¿½ï¿½ï¿½ 
         target_output<<order[Pcode[i].f].c_str()<<'\t'<<Pcode[i].l<<'\t'<<Pcode[i].a<<endl;
 	}
 }
 
-void printTable()  //Êä³ö·ûºÅ±í
+void printTable()  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½
 {
     int i = 1;
     gtable_output<< "N."<<'\t'<< "K."<<'\t'<< "V."<<'\t'<<"L."<<'\t'<<"A."<<endl;
     while(SymTable[i].num)
     {
-		// printf("Ãû³Æ:%s   ÀàÐÍ:%d   ÊýÖµ:%d   ²ã´Î:%d   Ïà¶ÔµØÖ·:%d    ³öÏÖ´ÎÊý:%d\n",
+		// printf("ï¿½ï¿½ï¿½ï¿½:%s   ï¿½ï¿½ï¿½ï¿½:%d   ï¿½ï¿½Öµ:%d   ï¿½ï¿½ï¿½:%d   ï¿½ï¿½Ôµï¿½Ö·:%d    ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½:%d\n",
         // SymTable[i].name.c_str(), SymTable[i].type, SymTable[i].value,SymTable[i].level, SymTable[i].adr, SymTable[i].num);
         gtable_output<< SymTable[i].name.c_str()<<'\t'<< SymTable[i].type<<'\t'<< SymTable[i].value<<'\t'<<SymTable[i].level<<'\t'<<SymTable[i].adr<<endl;
         i++;    
@@ -257,54 +257,54 @@ void printTable()  //Êä³ö·ûºÅ±í
 
 void interpreter()
 {
-    //³õÊ¼»¯
-    P = 0;//³ÌÐòµØÖ·¼Ä´æÆ÷
-	B = 0;//»ùÖ·¼Ä´æÆ÷
-	T = 0;//Õ»¶¥¼Ä´æÆ÷
+    //ï¿½ï¿½Ê¼ï¿½ï¿½
+    P = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½Ä´ï¿½ï¿½ï¿½
+	B = 0;//ï¿½ï¿½Ö·ï¿½Ä´ï¿½ï¿½ï¿½
+	T = 0;//Õ»ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
     int t;
     do
     {
         I = P;
         P++;
-        switch (Pcode[I].f)//»ñÈ¡Î±²Ù×÷Âë
+        switch (Pcode[I].f)//ï¿½ï¿½È¡Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
-        case 0: //LIT 0 a£¬È¡³£Á¿a·ÅÈëÊý¾ÝÕ»Õ»¶¥
+        case 0: //LIT 0 aï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Õ»ï¿½ï¿½
 			dataStack[T] = Pcode[I].a;
 			T++;
 			break;
-		case 1: //OPR 0 a£¬Ö´ÐÐÔËËã£¬a±íÊ¾Ö´ÐÐÄ³ÖÖÔËËã
+		case 1: //OPR 0 aï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ã£¬aï¿½ï¿½Ê¾Ö´ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			switch (Pcode[I].a)
 			{
-			case 0:						//opr,0,0 µ÷ÓÃ¹ý³Ì½áÊøºó£¬·µ»Øµ÷ÓÃµã²¢ÍËÕ»
-				T = B;                  //»Ö¸´µ÷ÓÃÇ°Õ»¶¥
-				P = dataStack[B + 2];	//·µ»ØµØÖ·
-				B = dataStack[B];		//¾²Ì¬Á´
+			case 0:						//opr,0,0 ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ó£¬·ï¿½ï¿½Øµï¿½ï¿½Ãµã²¢ï¿½ï¿½Õ»
+				T = B;                  //ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Õ»ï¿½ï¿½
+				P = dataStack[B + 2];	//ï¿½ï¿½ï¿½Øµï¿½Ö·
+				B = dataStack[B];		//ï¿½ï¿½Ì¬ï¿½ï¿½
 				break;
-			case 1:                 //opr 0,1È¡·´Ö¸Áî
+			case 1:                 //opr 0,1È¡ï¿½ï¿½Ö¸ï¿½ï¿½
 				dataStack[T - 1] = -dataStack[T - 1];
 				break;
-			case 2:                 //opr 0,2Ïà¼Ó£¬½«Ô­À´µÄÁ½¸öÔªËØÍËÈ¥£¬½«½á¹ûÖÃÓÚÕ»¶¥
+			case 2:                 //opr 0,2ï¿½ï¿½Ó£ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½
 				dataStack[T - 2] = dataStack[T - 1] + dataStack[T - 2];
 				T--;
 				break;
-			case 3:					//OPR 0,3 ´ÎÕ»¶¥¼õÈ¥Õ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 3:					//OPR 0,3 ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½È¥Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				dataStack[T - 2] = dataStack[T - 2] - dataStack[T - 1];
 				T--;
 				break;
-			case 4:    				//OPR 0,4´ÎÕ»¶¥³ËÒÔÕ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 4:    				//OPR 0,4ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				dataStack[T - 2] = dataStack[T - 2] * dataStack[T - 1];
 				T--;
 				break;
-			case 5:					//OPR 0,5´ÎÕ»¶¥³ýÒÔÕ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 5:					//OPR 0,5ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				dataStack[T - 2] = dataStack[T - 2] / dataStack[T - 1];
 				T--;
 				break;
-			case 6:                 //Õ»¶¥ÔªËØÖµÆæÅ¼ÅÐ¶Ï£¬½á¹ûÖµ½øÕ»,ÆæÊýÎª1
+			case 6:                 //Õ»ï¿½ï¿½Ôªï¿½ï¿½Öµï¿½ï¿½Å¼ï¿½Ð¶Ï£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»,ï¿½ï¿½ï¿½ï¿½Îª1
 				dataStack[T - 1] = dataStack[T - 1] % 2;
 				break;
 			case 7:
 				break;
-			case 8:					//´ÎÕ»¶¥ÓëÕ»ÏîÊÇ·ñÏàµÈ£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 8:					//ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				if (dataStack[T - 1] == dataStack[T - 2])
 				{
 					dataStack[T - 2] = 1;
@@ -316,7 +316,7 @@ void interpreter()
 				    T--;
                 }
 				break;
-			case 9:					//´ÎÕ»¶¥ÓëÕ»ÏîÊÇ·ñ²»µÈ£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 9:					//ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ç·ñ²»µÈ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				if (dataStack[T - 1] != dataStack[T - 2])
 				{
 					dataStack[T - 2] = 1;
@@ -328,7 +328,7 @@ void interpreter()
 				    T--;
                 }
 				break;
-			case 10:				//´ÎÕ»¶¥ÊÇ·ñÐ¡ÓÚÕ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 10:				//ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ç·ï¿½Ð¡ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				if (dataStack[T - 2] < dataStack[T - 1])
 				{
 					dataStack[T - 2] = 1;
@@ -340,7 +340,7 @@ void interpreter()
 				    T--;
                 }
 				break;
-			case 11:				//´ÎÕ»¶¥ÊÇ·ñ´óÓÚµÈÓÚÕ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 11:				//ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				if (dataStack[T - 2] >= dataStack[T - 1])
 				{
 					dataStack[T - 2] = 1;
@@ -352,7 +352,7 @@ void interpreter()
 				    T--;
                 }
 				break;
-			case 12:				//´ÎÕ»¶¥ÊÇ·ñ´óÓÚÕ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 12:				//ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				if (dataStack[T - 2] > dataStack[T - 1])
 				{
 					dataStack[T - 2] = 1;
@@ -364,7 +364,7 @@ void interpreter()
 				    T--;
                 }
 				break;
-			case 13:				//´ÎÕ»¶¥ÊÇ·ñÐ¡ÓÚµÈÓÚÕ»¶¥£¬ÍËÁ½¸öÕ»ÔªËØ£¬½á¹ûÖµ½øÕ»
+			case 13:				//ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ç·ï¿½Ð¡ï¿½Úµï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Õ»
 				if (dataStack[T - 2] <= dataStack[T - 1])
 				{
 					dataStack[T - 2] = 1;
@@ -376,43 +376,43 @@ void interpreter()
 				    T--;
                 }
 				break;
-			case 15:				//ÆÁÄ»Êä³ö»»ÐÐ
+			case 15:				//ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				cout << endl;
 				break;
 			}
 			break;
-        case 2: //LOD L £¬a È¡±äÁ¿£¨Ïà¶ÔµØÖ·Îªa£¬²ã²îÎªL£©·Åµ½Êý¾ÝÕ»µÄÕ»¶¥
+        case 2: //LOD L ï¿½ï¿½a È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ö·Îªaï¿½ï¿½ï¿½ï¿½ï¿½ÎªLï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½Õ»ï¿½ï¿½
 			dataStack[T] = dataStack[Pcode[I].a + getBase(B, Pcode[I].l)];
 //			cout << I << "------" << dataStack[T] << endl;
 			T++;
 			break;
-        case 3: //STO L £¬a ½«Êý¾ÝÕ»Õ»¶¥µÄÄÚÈÝ´æÈë±äÁ¿£¨Ïà¶ÔµØÖ·Îªa£¬²ã´Î²îÎªL£©
+        case 3: //STO L ï¿½ï¿½a ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ö·Îªaï¿½ï¿½ï¿½ï¿½Î²ï¿½ÎªLï¿½ï¿½
             dataStack[Pcode[I].a + getBase(B, Pcode[I].l)] = dataStack[T - 1];
 			T--;
 			break;
-        case 4: //CAL L £¬a µ÷ÓÃ¹ý³Ì£¨×ª×ÓÖ¸Áî£©£¨Èë¿ÚµØÖ·Îªa£¬²ã´Î²îÎªL£©
-			dataStack[T] = B;		//¾²Ì¬Á´£¬Ö±½ÓÍâ²ã¹ý³Ì
-			dataStack[T + 1] = getBase(B, Pcode[I].l);	//¶¯Ì¬Á´£¬µ÷ÓÃÇ°ÔËÐÐ¹ý³Ì
-			dataStack[T + 2] = P;		//·µ»ØµØÖ·£¬ÏÂÒ»ÌõÒªÖ´ÐÐµÄ
+        case 4: //CAL L ï¿½ï¿½a ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Ì£ï¿½×ªï¿½ï¿½Ö¸ï¿½î£©ï¿½ï¿½ï¿½ï¿½Úµï¿½Ö·Îªaï¿½ï¿½ï¿½ï¿½Î²ï¿½ÎªLï¿½ï¿½
+			dataStack[T] = B;		//ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			dataStack[T + 1] = getBase(B, Pcode[I].l);	//ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½
+			dataStack[T + 2] = P;		//ï¿½ï¿½ï¿½Øµï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ÒªÖ´ï¿½Ðµï¿½
 			B = T;
 			P = Pcode[I].a;
 			break;
-        case 5: //INT 0 £¬a Êý¾ÝÕ»Õ»¶¥Ö¸ÕëÔö¼Óa
+        case 5: //INT 0 ï¿½ï¿½a ï¿½ï¿½ï¿½ï¿½Õ»Õ»ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½a
 			T = B + Pcode[I].a;
 			break;
-		case 6: //JMP 0 £¬aÎÞÌõ¼þ×ªÒÆµ½µØÖ·ÎªaµÄÖ¸Áî
+		case 6: //JMP 0 ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Æµï¿½ï¿½ï¿½Ö·Îªaï¿½ï¿½Ö¸ï¿½ï¿½
 			P = Pcode[I].a;
 			break;
-		case 7: //JPC 0 £¬a Ìõ¼þ×ªÒÆÖ¸Áî£¬×ªÒÆµ½µØÖ·ÎªaµÄÖ¸Áî
+		case 7: //JPC 0 ï¿½ï¿½a ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Ö¸ï¿½î£¬×ªï¿½Æµï¿½ï¿½ï¿½Ö·Îªaï¿½ï¿½Ö¸ï¿½ï¿½
 			if (dataStack[T - 1] == 0)
 				P = Pcode[I].a;
 			break;
-		case 8: //RED L £¬a ´ÓÃüÁîÐÐ¶ÁÈëÒ»¸öÊý¾Ý²¢´æÈë±äÁ¿
-            cout << "ÇëÔÚÃüÁîÐÐÖÐÊäÈëÒ»¸ö±äÁ¿ÖµµÄÊý¾Ý:";
+		case 8: //RED L ï¿½ï¿½a ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:";
 			cin >> t;
 			dataStack[Pcode[I].a + getBase(B, Pcode[I].l)] = t;
 			break;
-		case 9: //WRT 0 0 Õ»¶¥ÖµÊä³öÖÁÆÁÄ»
+		case 9: //WRT 0 0 Õ»ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»
 			cout << dataStack[T - 1] << " ";
 			break;
 		}
@@ -421,22 +421,22 @@ void interpreter()
 
 void test(int type)
 {
-    if(type == 1)//statementµÄfirst¼¯
+    if(type == 1)//statementï¿½ï¿½firstï¿½ï¿½
     {
         while(unit.key != "id" && unit.val != "if" && unit.val != "while" && unit.val != "call" && unit.val != "begin" && unit.val != "read" && unit.val != "write")
         {
-//            addError(17);//´Ëµ¥´Ê¶àÓà£¬superfluous
+//            addError(17);//ï¿½Ëµï¿½ï¿½Ê¶ï¿½ï¿½à£¬superfluous
             ReadLine();
         }
     }
-    else if(type == 2)//blockµÄfirst¼¯
+    else if(type == 2)//blockï¿½ï¿½firstï¿½ï¿½
     {
         if(unit.val == "const" && unit.val == "var" && unit.val == "procedure")
             return;
         
         while(unit.val != "const" && unit.val != "var" && unit.val != "procedure" && unit.val != "begin" && unit.key != "id" && unit.val != "if" && unit.val != "while" && unit.val != "call" && unit.val != "read" && unit.val != "write")
         {
-//            addError(17);//´Ëµ¥´Ê¶àÓà£¬superfluous
+//            addError(17);//ï¿½Ëµï¿½ï¿½Ê¶ï¿½ï¿½à£¬superfluous
             ReadLine();
         }
 
@@ -452,94 +452,94 @@ void test(int type)
  * @param type Error type.
  */
 
-void addError(int type, string name)//È±Ê¡º¯Êý
+void addError(int type, string name)//È±Ê¡ï¿½ï¿½ï¿½ï¿½
 {
     errorStack.push(type);
     error = true;
     switch (type)
     {
-    case 0://Æ´Ð´´íÎó
+    case 0://Æ´Ð´ï¿½ï¿½ï¿½ï¿½
         printf("[Grammar error][%d,%d] Spell error \"program\"\n", unit.row, unit.col);
         break;
-    case 1://programºóÈ±ÉÙ±êÊ¶·û
+    case 1://programï¿½ï¿½È±ï¿½Ù±ï¿½Ê¶ï¿½ï¿½
         printf("[Grammar error][%d,%d] Missing identifier after \"program\"\n", unit.row, unit.col);
         break;
-    case 2://È±ÉÙ·ÖºÅ
+    case 2://È±ï¿½Ù·Öºï¿½
         printf("[Grammar error][%d,%d] Missing \";\" \n", last_unit.row, last_unit.col);
         break;
-    case 3://È±ÉÙÓÒÀ¨ºÅ 
+    case 3://È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
         printf("[Grammar error][%d,%d] Missing \")\" \n", unit.row, unit.col);
         break;
-    case 4://È±ÉÙ×óÀ¨ºÅ 
+    case 4://È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
         printf("[Grammar error][%d,%d] Missing \"(\" \n", unit.row, unit.col);
         break;
-    case 5://È±ÉÙ¶ººÅ 
+    case 5://È±ï¿½Ù¶ï¿½ï¿½ï¿½ 
         printf("[Grammar error][%d,%d] Missing \",\" \n", unit.row, unit.col);
         break;
-    case 6://È±ÉÙid
+    case 6://È±ï¿½ï¿½id
         printf("[Grammar error][%d,%d] Missing identifier \n", unit.row, unit.col);
         break;
-    case 7://È±ÉÙ±È½Ï·û
+    case 7://È±ï¿½Ù±È½Ï·ï¿½
         printf("[Grammar error][%d,%d] Missing compare operator \n", unit.row, unit.col);
         break;
-    case 8://È±ÉÙ¸³ÖµºÅ 
+    case 8://È±ï¿½Ù¸ï¿½Öµï¿½ï¿½ 
         printf("[Grammar error][%d,%d] Missing assignment operator \n", unit.row, unit.col);
         break;
-    case 9://È±ÉÙthen
+    case 9://È±ï¿½ï¿½then
         printf("[Grammar error][%d,%d] Missing \"then\" \n", unit.row, unit.col);
         break;
-    case 10://È±ÉÙdo
+    case 10://È±ï¿½ï¿½do
         printf("[Grammar error][%d,%d] Missing \"do\" \n", unit.row, unit.col);
         break;
-    case 11://È±ÉÙbegin
+    case 11://È±ï¿½ï¿½begin
         printf("[Grammar error][%d,%d] Missing \"begin\" \n", unit.row, unit.col);
         break;
-    case 12://È±ÉÙend
+    case 12://È±ï¿½ï¿½end
         printf("[Grammar error][%d,%d] Missing \"end\" \n", unit.row, unit.col);
         break;
-    case 13://³£Á¿¸³ÖµºÅºóÃæÓ¦ÎªÊý×Ö
+    case 13://ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½Åºï¿½ï¿½ï¿½Ó¦Îªï¿½ï¿½ï¿½ï¿½
         printf("[Grammar error][%d,%d] after\":=\" should be a number  \n", unit.row, unit.col);
         break;
-    case 14://È±ÉÙ:
+    case 14://È±ï¿½ï¿½:
         printf("[Grammar error][%d,%d] Missing \":\" \n", unit.row, unit.col);
         break; 
-    case 15://È±ÉÙ:=
+    case 15://È±ï¿½ï¿½:=
         printf("[Grammar error][%d,%d] Missing \":=\" \n", unit.row, unit.col);
         break;
-    case 16://È±ÉÙprogram
+    case 16://È±ï¿½ï¿½program
         printf("[Grammar error][%d,%d] Missing \"program\" \n", unit.row, unit.col);
         break;
-    case 17://´æÔÚ¶àÓàµÄµ¥´Ê
+    case 17://ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
         printf("[Grammar error][%d,%d] the word is superfluous \n", unit.row, unit.col);
         break;
-    case 18://¸Ã±äÁ¿Î´¶¨Òå
+    case 18://ï¿½Ã±ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
         if(name != "")
         	printf("[error][%d,%d] not exist %s\n", unit.row, unit.col, name.c_str());
         else
         	printf("[error][%d,%d] not exist %s\n", unit.row, unit.col, unit.val.c_str());
         break;
-    case 19://²»ÊÇ±äÁ¿
+    case 19://ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½
     	if(name != "")
         	printf("[error][%d,%d] %s is not a variable \n", unit.row, unit.col, name.c_str());
         else
         	printf("[error][%d,%d] %s is not a variable \n", unit.row, unit.col, unit.val.c_str());
         break;
-    case 20://²»ÊÇ³£Á¿
+    case 20://ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½
         if(name != "")
         	printf("[error][%d,%d] %s is not a const \n", unit.row, unit.col, name.c_str());
         else
         	printf("[error][%d,%d] %s is not a const \n", unit.row, unit.col, unit.val.c_str());
         break;
-    case 21://²»ÊÇ¹ý³Ì
+    case 21://ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½
         if(name != "")
         	printf("[error][%d,%d] %s is not a procedure \n", unit.row, unit.col, name.c_str());
         else
         	printf("[error][%d,%d] %s is not a procedure \n", unit.row, unit.col, unit.val.c_str());
         break;
-    case 22://²ÎÊý¸öÊý²»Æ¥Åä
+    case 22://ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½
         printf("[error][%d,%d] The number of parameters does not match \n", unit.row, unit.col);
         break;
-    case 23://¶àÖØ¶¨Òå
+    case 23://ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
         if(name != "")
         	printf("[error][%d,%d] Duplicate definition %s\n", unit.row, unit.col, name.c_str());
         else
@@ -560,21 +560,21 @@ void ReadLine()
 {
     getline(in, line);
     last_unit = unit; 
-    istringstream iss(line);//·Ö¸î³Éµ¥¸öÔªËØ
-    iss >> unit.val;//µ¥´ÊµÄÄÚÈÝ
-    iss >> unit.key;//µ¥´ÊµÄÖÖÀà
+    istringstream iss(line);//ï¿½Ö¸ï¿½Éµï¿½ï¿½ï¿½Ôªï¿½ï¿½
+    iss >> unit.val;//ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½
+    iss >> unit.key;//ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½
     iss >> unit.row;
     iss >> unit.col;
 }
 
 /**
- * <factor>¡ú<id>|<integer>|(<exp>)
+ * <factor>ï¿½ï¿½<id>|<integer>|(<exp>)
  */
-void Factor()//-------Ó¦¸Ãok-----------
+void Factor()//-------Ó¦ï¿½ï¿½ok-----------
 {
     if(unit.key == "id")
     {
-        //ÅÐ¶ÏidÊÇ·ñÒÑ¾­¶¨Òå
+        //ï¿½Ð¶ï¿½idï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
         if(is_pre_level(unit.val, lev) == false)
             addError(18);
         else
@@ -592,7 +592,7 @@ void Factor()//-------Ó¦¸Ãok-----------
 			}
 			else
 			{
-				addError(19);//²»ÊÇ±äÁ¿ºÍ³£Á¿
+				addError(19);//ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½Í³ï¿½ï¿½ï¿½
 				return;
 			}
         }
@@ -610,18 +610,18 @@ void Factor()//-------Ó¦¸Ãok-----------
         if(unit.val == ")")
             ReadLine();
         else
-            addError(5);//È±ÉÙÓÒÀ¨ºÅ
+            addError(5);//È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
     else
     {
-        addError(6);//È±ÉÙ±êÊ¶·û
+        addError(6);//È±ï¿½Ù±ï¿½Ê¶ï¿½ï¿½
     }
 }
 
 /**
- * <term> ¡ú <factor>{<mop><factor>}
+ * <term> ï¿½ï¿½ <factor>{<mop><factor>}
  */
-void Term()//-------Ó¦¸Ãok-----------
+void Term()//-------Ó¦ï¿½ï¿½ok-----------
 {
     Factor();
     while(unit.val == "*" || unit.val == "/")
@@ -638,14 +638,14 @@ void Term()//-------Ó¦¸Ãok-----------
 }
 
 /**
- * <exp> ¡ú [+|-]<term>{<aop><term>}
+ * <exp> ï¿½ï¿½ [+|-]<term>{<aop><term>}
  */
-void Exp() //-------Ó¦¸Ãok-----------
+void Exp() //-------Ó¦ï¿½ï¿½ok-----------
 {
     string name;
     if(unit.val == "+" || unit.val == "-")
     {
-        name = unit.val;//ÏÈ¼ÇÂ¼²Ù×÷·û£¬µÈ¶ÁÍêÁ½¸ö²Ù×÷ÊýºóÔÙgen
+        name = unit.val;//ï¿½È¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gen
         ReadLine();
     }    
     Term();
@@ -663,14 +663,14 @@ void Exp() //-------Ó¦¸Ãok-----------
         else if(name == "-")
             gen(OPR, 0, 3);
         else
-            exit(-1);//²»¿ÉÄÜµ½´ïÕâ¸öµØ·½
+            exit(-1);//ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø·ï¿½
     }
 }
 
 /**
- * <lexp> ¡ú <exp> <lop> <exp>|odd <exp>
+ * <lexp> ï¿½ï¿½ <exp> <lop> <exp>|odd <exp>
  */
-void Lexp()//-------Ó¦¸Ãok-----------
+void Lexp()//-------Ó¦ï¿½ï¿½ok-----------
 {
     if(unit.val == "odd")
     {
@@ -684,7 +684,7 @@ void Lexp()//-------Ó¦¸Ãok-----------
         string key = unit.val;
         if(unit.key != "COP")
         {
-		    addError(7);//È±ÉÙ±È½Ï·û
+		    addError(7);//È±ï¿½Ù±È½Ï·ï¿½
 		    Exp();
 		}
         else
@@ -709,12 +709,12 @@ void Lexp()//-------Ó¦¸Ãok-----------
 }
 
 /**
- * <statement> ¡ú <id> := <exp>
+ * <statement> ï¿½ï¿½ <id> := <exp>
                |if <lexp> then <statement>[else <statement>]
                |while <lexp> do <statement>
-               |call <id>[£¨<exp>{,<exp>}£©]
+               |call <id>[ï¿½ï¿½<exp>{,<exp>}ï¿½ï¿½]
                |<body>
-               |read (<id>{£¬<id>})
+               |read (<id>{ï¿½ï¿½<id>})
                |write (<exp>{,<exp>})
  */
 void Statement()
@@ -729,20 +729,20 @@ void Statement()
         }
         else
         {
-            addError(8);//È±ÉÙ¸³ÖµºÅ
+            addError(8);//È±ï¿½Ù¸ï¿½Öµï¿½ï¿½
         }
         int i = position(name);
         SymTable[i].num++;
         Exp();
 
         if(is_pre_level(name, lev) == false)
-            addError(18, name);//Î´¶¨Òå
+            addError(18, name);//Î´ï¿½ï¿½ï¿½ï¿½
         else
         {
             if(SymTable[i].type == VAR)
                 gen(STO, lev - SymTable[i].level, SymTable[i].adr);
             else
-                addError(19,name);//²»ÊÇ±äÁ¿
+                addError(19,name);//ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½
         }
     }
 
@@ -758,20 +758,20 @@ void Statement()
             ReadLine();
         }    
         else
-            addError(9);//È±ÉÙthen
+            addError(9);//È±ï¿½ï¿½then
         
         Statement();
         int cx2 = cx;
-        gen(JMP, 0, 0);//ÊÇjmp²»ÊÇjpc£¡£¡£¡£¡
+        gen(JMP, 0, 0);//ï¿½ï¿½jmpï¿½ï¿½ï¿½ï¿½jpcï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        //»ØÌî
+        //ï¿½ï¿½ï¿½ï¿½
         Pcode[cx2].a = cx;
         Pcode[cx1].a = cx;
         if(unit.val == "else")
         {
             ReadLine();
             Statement();
-            Pcode[cx2].a = cx;//»ØÌî
+            Pcode[cx2].a = cx;//ï¿½ï¿½ï¿½ï¿½
         }        
     }
     else if(unit.val == "while")
@@ -785,7 +785,7 @@ void Statement()
         if(unit.val == "do")
             ReadLine();
         else
-            addError(10);//È±ÉÙdo
+            addError(10);//È±ï¿½ï¿½do
             
         Statement();
         gen(JMP, 0, cx1);
@@ -795,35 +795,35 @@ void Statement()
     {
         ReadLine();
         int i;
-        int count = 0;//²ÎÊýµÄ¸öÊý
+        int count = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
         if(unit.key == "id")
         {
             if(is_pre_level(unit.val, lev) == false)
             {
                 i = position(unit.val);
                 SymTable[i].num++;
-                addError(18);//Î´¶¨Òå 
+                addError(18);//Î´ï¿½ï¿½ï¿½ï¿½ 
             }
             else
             {
                 i = position(unit.val);
                 SymTable[i].num++;
                 if(SymTable[i].type != PROCEDURE)
-                    addError(21);//²»ÊÇ¹ý³Ì
+                    addError(21);//ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½
             }
             ReadLine();
         }
         else
-            addError(6);//È±ÉÙid
+            addError(6);//È±ï¿½ï¿½id
 
         if(unit.val == "(")
             ReadLine();
         else
-            addError(4);//È±ÉÙ(
+            addError(4);//È±ï¿½ï¿½(
         
-        if (unit.val == ")")//ËµÃ÷ÎÞ²ÎÊý
+        if (unit.val == ")")//Ëµï¿½ï¿½ï¿½Þ²ï¿½ï¿½ï¿½
 		{
-			gen(CAL, lev - SymTable[i].level, SymTable[i].value);//SymTable[i].value ÒªÌø×ªµÄ¹ý³ÌÖ¸ÁîµØÖ·
+			gen(CAL, lev - SymTable[i].level, SymTable[i].value);//SymTable[i].value Òªï¿½ï¿½×ªï¿½Ä¹ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö·
 		}
         if(unit.val == "+" || unit.val == "-" || unit.key == "id" || unit.key == "INT" || unit.val == "(")
         {
@@ -836,14 +836,14 @@ void Statement()
                 count++;
             }
             if (count != SymTable[i].size)
-                addError(22);//²ÎÊý¸öÊý²»Æ¥Åä
+                addError(22);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½
 //            cout << "i:" << i << endl;
-            gen(CAL, lev - SymTable[i].level, SymTable[i].value);//SymTable[i].value ÒªÌø×ªµÄ¹ý³ÌÖ¸ÁîµØÖ·
+            gen(CAL, lev - SymTable[i].level, SymTable[i].value);//SymTable[i].value Òªï¿½ï¿½×ªï¿½Ä¹ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö·
         }
         if(unit.val == ")")
             ReadLine();
         else
-            addError(3);//È±ÉÙ)
+            addError(3);//È±ï¿½ï¿½)
     }
     else if(unit.val == "begin")
     {
@@ -855,13 +855,13 @@ void Statement()
         if(unit.val == "(")
             ReadLine();
         else
-            addError(4);//È±ÉÙ(
+            addError(4);//È±ï¿½ï¿½(
 
         if(unit.key == "id")
         {
             if(is_pre_level(unit.val, lev) == false)
             {
-                addError(18);//Î´¶¨Òå
+                addError(18);//Î´ï¿½ï¿½ï¿½ï¿½
             }
             else
             {
@@ -872,26 +872,26 @@ void Statement()
                     gen(RED, lev - SymTable[i].level, SymTable[i].adr);
                 }
                 else
-                    addError(19);//²»ÊÇ±äÁ¿
+                    addError(19);//ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½
             }
             ReadLine();
         }
         else
-            addError(6);//È±ÉÙid
+            addError(6);//È±ï¿½ï¿½id
         
         while(unit.val == ",")
         {
             ReadLine();
             if(unit.key != "id")
             {
-                addError(6);//È±ÉÙid
+                addError(6);//È±ï¿½ï¿½id
                 if(unit.val != ")" && unit.val != ";")
                 	ReadLine();
                 break;
             }
 
             if(is_pre_level(unit.val, lev) == false)
-                addError(18);//Î´¶¨Òå
+                addError(18);//Î´ï¿½ï¿½ï¿½ï¿½
             else
             {
                 int i = position(unit.val);
@@ -899,7 +899,7 @@ void Statement()
                 
                 if(SymTable[i].type == VAR)
                     gen(RED, lev - SymTable[i].level, SymTable[i].adr);
-                else addError(19);//²»ÊÇ±äÁ¿
+                else addError(19);//ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½
             }
             ReadLine();
         }
@@ -907,7 +907,7 @@ void Statement()
         if(unit.val == ")")
             ReadLine();
         else
-            addError(3);//È±ÉÙ)
+            addError(3);//È±ï¿½ï¿½)
     }
     else if(unit.val == "write")
     {
@@ -915,7 +915,7 @@ void Statement()
         if(unit.val == "(")
             ReadLine();
         else
-            addError(4);//È±ÉÙ(
+            addError(4);//È±ï¿½ï¿½(
         
         Exp();
         gen(WRT, 0, 0);
@@ -925,29 +925,29 @@ void Statement()
             Exp();
             gen(WRT, 0, 0);
         }
-        gen(OPR, 0, 15);//Êä³ö»»ÐÐ
+        gen(OPR, 0, 15);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if(unit.val == ")")
             ReadLine();
         else
-            addError(3);//È±ÉÙ)
+            addError(3);//È±ï¿½ï¿½)
     }
     else
     {
-        cout << "²»¿ÉÄÜÌøµ½statementµÄÕâ¸öµØ·½" << endl;
+        cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½statementï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø·ï¿½" << endl;
     }
 }
 
 /**
- * <body> ¡ú begin <statement>{;<statement>}end
+ * <body> ï¿½ï¿½ begin <statement>{;<statement>}end
  */
-void Body()//-------Ó¦¸Ãok-----------
+void Body()//-------Ó¦ï¿½ï¿½ok-----------
 {
     if(unit.val == "begin")
         ReadLine();
     else
-        addError(11);//È±ÉÙbegin
+        addError(11);//È±ï¿½ï¿½begin
     
-    //Í¬²½
+    //Í¬ï¿½ï¿½
     test(1);
     Statement();
 
@@ -961,11 +961,11 @@ void Body()//-------Ó¦¸Ãok-----------
     if(unit.val == "end")
         ReadLine();
     else
-        addError(12);//È±ÉÙend
+        addError(12);//È±ï¿½ï¿½end
 
 }
 
-void para_func()//-------Ó¦¸Ãok-----------
+void para_func()//-------Ó¦ï¿½ï¿½ok-----------
 {
     if(unit.key == "id")
     {
@@ -975,7 +975,7 @@ void para_func()//-------Ó¦¸Ãok-----------
             if(unit.val == ",")
                 ReadLine();
             else
-                addError(5);//È±ÉÙ,
+                addError(5);//È±ï¿½ï¿½,
             
             if(unit.key == "id")
             {
@@ -983,7 +983,7 @@ void para_func()//-------Ó¦¸Ãok-----------
             }
             else
             {
-                addError(6);//È±ÉÙid
+                addError(6);//È±ï¿½ï¿½id
                 while(unit.val != ")" && unit.key != "id" && unit.val != ";" && unit.val != "const" && unit.val != "var" && unit.val != "procedure")
                     ReadLine();
                 if(unit.key == "id")
@@ -992,7 +992,7 @@ void para_func()//-------Ó¦¸Ãok-----------
         }
         if(unit.val != ")")
         {   
-            addError(3);//È±ÉÙ)
+            addError(3);//È±ï¿½ï¿½)
         }
         else
             ReadLine();
@@ -1001,7 +1001,7 @@ void para_func()//-------Ó¦¸Ãok-----------
         ReadLine();
     else
     {
-        addError(3);//È±ÉÙ)
+        addError(3);//È±ï¿½ï¿½)
         ReadLine();
         while(unit.val != ")" && unit.val != ";" && unit.val != "const" && unit.val != "var" && unit.val != "procedure")
             ReadLine();
@@ -1009,11 +1009,11 @@ void para_func()//-------Ó¦¸Ãok-----------
 }
 
 /**
- * <proc> ¡ú procedure <id>£¨[<id>{,<id>}]£©;<block>{;<proc>}
+ * <proc> ï¿½ï¿½ procedure <id>ï¿½ï¿½[<id>{,<id>}]ï¿½ï¿½;<block>{;<proc>}
  */
-void Proc()//-------Ó¦¸Ãok-----------
+void Proc()//-------Ó¦ï¿½ï¿½ok-----------
 {
-    //½øÈë¸Ãº¯ÊýµÄÇ°ÌáÊÇÓÐprocedure£¬¹ÊÎÞÐèÅÐ¶Ïprocedure
+    //ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½procedureï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½procedure
     
     int count = 0;
     int tx0;
@@ -1022,7 +1022,7 @@ void Proc()//-------Ó¦¸Ãok-----------
     {
         if(is_the_same_level(unit.val, lev))
         {
-            addError(23);//¶àÖØ¶¨Òå
+            addError(23);//ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
         }
         tx0 = tx + 1;
         addProcedure(unit.val, lev, dx);
@@ -1031,7 +1031,7 @@ void Proc()//-------Ó¦¸Ãok-----------
 
         if(unit.val != "(")
         {
-            addError(4);//È±ÉÙ(
+            addError(4);//È±ï¿½ï¿½(
         }
         else
         {
@@ -1050,7 +1050,7 @@ void Proc()//-------Ó¦¸Ãok-----------
                 if(unit.val == ",")
                     ReadLine();
                 else
-                    addError(5);//È±ÉÙ,
+                    addError(5);//È±ï¿½ï¿½,
                 
                 if(unit.key == "id")
                 {
@@ -1062,7 +1062,7 @@ void Proc()//-------Ó¦¸Ãok-----------
                 }
                 else
                 {
-                    addError(6);//È±ÉÙid
+                    addError(6);//È±ï¿½ï¿½id
                     while(unit.val != ")" && unit.key != "id" && unit.val != ";" && unit.val != "const" && unit.val != "var" && unit.val != "procedure")
                         ReadLine();
                     if(unit.key == "id")
@@ -1071,7 +1071,7 @@ void Proc()//-------Ó¦¸Ãok-----------
             }
             if(unit.val != ")")
             {   
-                addError(3);//È±ÉÙ)
+                addError(3);//È±ï¿½ï¿½)
             }
             else
                 ReadLine();
@@ -1080,7 +1080,7 @@ void Proc()//-------Ó¦¸Ãok-----------
             ReadLine();
         else
         {
-            addError(3);//È±ÉÙ)
+            addError(3);//È±ï¿½ï¿½)
             ReadLine();
             while(unit.val != ")" && unit.val != ";" && unit.val != "const" && unit.val != "var" && unit.val != "procedure")
                 ReadLine();
@@ -1088,7 +1088,7 @@ void Proc()//-------Ó¦¸Ãok-----------
     }
     else
     {
-        addError(6);//È±ÉÙid
+        addError(6);//È±ï¿½ï¿½id
         while(unit.val != "(" && unit.val != ")" && unit.val != ";")
             ReadLine();
         if(unit.val == "(")
@@ -1102,8 +1102,8 @@ void Proc()//-------Ó¦¸Ãok-----------
         ReadLine();
     else
     {
-        addError(2);//È±ÉÙ;
-        test(2);//Í¬²½
+        addError(2);//È±ï¿½ï¿½;
+        test(2);//Í¬ï¿½ï¿½
     }
 
     if(unit.val == "const" || unit.val == "var" || unit.val == "procedure" || unit.val == "begin" || unit.key == "id" || unit.val == "if" || unit.val == "while" || unit.val == "call" || unit.val == "read" || unit.val == "write")
@@ -1117,14 +1117,14 @@ void Proc()//-------Ó¦¸Ãok-----------
     
 }
 
-void Var()//-------Ó¦¸Ãok-----------
+void Var()//-------Ó¦ï¿½ï¿½ok-----------
 {
     if(unit.key == "id")
     {
         string name = unit.val;
 		if (is_the_same_level(name, lev))
 		{
-			addError(23);//ÖØ¸´¶¨Òå
+			addError(23);//ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
 		}
 
 		addVar(name, lev, dx);
@@ -1133,7 +1133,7 @@ void Var()//-------Ó¦¸Ãok-----------
     }
     else
     {
-        addError(6);//varºóÃæÓ¦Îª±êÊ¶·û
+        addError(6);//varï¿½ï¿½ï¿½ï¿½Ó¦Îªï¿½ï¿½Ê¶ï¿½ï¿½
         if(unit.key == "INT")
             ReadLine();
         while(unit.val != "," && unit.key != "id" && unit.val != ";")
@@ -1142,11 +1142,11 @@ void Var()//-------Ó¦¸Ãok-----------
 }
 
 /**
- * <vardecl> ¡ú var <id>{,<id>};
- * <id> ¡ú l{l|d}
+ * <vardecl> ï¿½ï¿½ var <id>{,<id>};
+ * <id> ï¿½ï¿½ l{l|d}
  * l represent letter.
  */
-void Vardecl()//-------Ó¦¸Ãok-----------
+void Vardecl()//-------Ó¦ï¿½ï¿½ok-----------
 {
     ReadLine();
     Var();
@@ -1157,12 +1157,12 @@ void Vardecl()//-------Ó¦¸Ãok-----------
             string name = unit.val;
             if (is_the_same_level(name, lev))
             {
-                addError(23);//ÖØ¸´¶¨Òå
+                addError(23);//ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
             }
 
             addVar(name, lev, dx);
             dx++;
-            addError(5);//È±ÉÙ,
+            addError(5);//È±ï¿½ï¿½,
         }    
         else
         {
@@ -1174,17 +1174,17 @@ void Vardecl()//-------Ó¦¸Ãok-----------
     if(unit.val == ";")
         ReadLine();
     else
-        addError(2);//È±ÉÙ;
+        addError(2);//È±ï¿½ï¿½;
 
 }
 
 /**
  * Const variables declaration.
- * <const> ¡ú <id>:=<integer>
- * <id> ¡ú l{l|d}
+ * <const> ï¿½ï¿½ <id>:=<integer>
+ * <id> ï¿½ï¿½ l{l|d}
  * l represent letter.
  */
-void Const()//-------Ó¦¸Ãok-----------
+void Const()//-------Ó¦ï¿½ï¿½ok-----------
 {
     ReadLine();
     string name;
@@ -1195,7 +1195,7 @@ void Const()//-------Ó¦¸Ãok-----------
     }
     else
     {
-        addError(6);//È±ÉÙid
+        addError(6);//È±ï¿½ï¿½id
         while(unit.val != ":=" && unit.val != "=" && unit.val != ";")
             ReadLine();
         if(unit.val == ";")
@@ -1210,13 +1210,13 @@ void Const()//-------Ó¦¸Ãok-----------
             int value = stringtoint(unit.val);
 
             if(is_the_same_level(name, lev))
-                addError(23);//¶àÖØ¶¨Òå
+                addError(23);//ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
             addConst(name, lev, value);
 			ReadLine();
 		}    
         else
         {
-            addError(13);//³£Á¿¸³ÖµºÅºóÃæÓ¦ÎªÊý×Ö
+            addError(13);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½Åºï¿½ï¿½ï¿½Ó¦Îªï¿½ï¿½ï¿½ï¿½
             if(unit.key == "id")
                 ReadLine();
         }
@@ -1225,7 +1225,7 @@ void Const()//-------Ó¦¸Ãok-----------
     {
         if(unit.val == "=")
         {
-            addError(14);//È±ÉÙ:
+            addError(14);//È±ï¿½ï¿½:
             ReadLine();
 
             if(unit.key == "INT")
@@ -1233,16 +1233,16 @@ void Const()//-------Ó¦¸Ãok-----------
                 int value = stringtoint(unit.val);
 
                 if(is_the_same_level(name, lev))
-                    addError(23);//¶àÖØ¶¨Òå
+                    addError(23);//ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
                 addConst(name, lev, value);
                 ReadLine();
             } 
             else
-                addError(13);//¸³ÖµºÅºóÃæÓ¦ÎªÊý×Ö
+                addError(13);//ï¿½ï¿½Öµï¿½Åºï¿½ï¿½ï¿½Ó¦Îªï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            addError(15);//È±ÉÙ:=
+            addError(15);//È±ï¿½ï¿½:=
             while(unit.val != ":=" && unit.key != "INT" && unit.val != ",")
                 ReadLine();
             if(unit.key != "INT")
@@ -1254,9 +1254,9 @@ void Const()//-------Ó¦¸Ãok-----------
 
 /**
  * Const variables declaration.
- * <condecl> ¡ú const <const>{,<const>};
+ * <condecl> ï¿½ï¿½ const <const>{,<const>};
  */
-void Condecl()//-------Ó¦¸Ãok-----------
+void Condecl()//-------Ó¦ï¿½ï¿½ok-----------
 {
     Const();
     bool flag = false;
@@ -1264,9 +1264,9 @@ void Condecl()//-------Ó¦¸Ãok-----------
     {
         flag = true;
         if(unit.key == "id")
-            addError(5);//È±ÉÙ¶ººÅ 
+            addError(5);//È±ï¿½Ù¶ï¿½ï¿½ï¿½ 
         else
-            ;//ÎÞÐèReadline(),ÒòÎªÔÚConstº¯ÊýÄÚµ÷ÓÃÁËReadline
+            ;//ï¿½ï¿½ï¿½ï¿½Readline(),ï¿½ï¿½Îªï¿½ï¿½Constï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½Readline
         Condecl();
     }
     
@@ -1275,14 +1275,14 @@ void Condecl()//-------Ó¦¸Ãok-----------
         if(unit.val == ";")
             ReadLine();
         else
-            addError(2);//È±ÉÙ;
+            addError(2);//È±ï¿½ï¿½;
     }
 }
 
 /**
- * <block> ¡ú [<condecl>][<vardecl>][<proc>]<body>
+ * <block> ï¿½ï¿½ [<condecl>][<vardecl>][<proc>]<body>
  */
-void Block()//-------Ó¦¸Ãok-----------
+void Block()//-------Ó¦ï¿½ï¿½ok-----------
 {
     int dx0 = dx;
 	int tx0 = tx + 1;
@@ -1291,13 +1291,13 @@ void Block()//-------Ó¦¸Ãok-----------
     if (tx0 > 1)
 	{
 		n = findproc(tx0);
-		tx0 -= SymTable[n].size;//¼õÈ¥ÐÎ²Î¸öÊý
+		tx0 -= SymTable[n].size;//ï¿½ï¿½È¥ï¿½Î²Î¸ï¿½ï¿½ï¿½
         dx = 3 + SymTable[n].size;
 	}
 	else
 		dx = 3;
 
-	int cx0 = cx;//¼ÇÂ¼Ìø×ªÖ¸ÁîµÄÎ»ÖÃ
+	int cx0 = cx;//ï¿½ï¿½Â¼ï¿½ï¿½×ªÖ¸ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	gen(JMP, 0, 0);
 
     if(unit.val == "const")
@@ -1315,18 +1315,18 @@ void Block()//-------Ó¦¸Ãok-----------
         n = findproc(tx0);
         for(int i = 0; i < SymTable[n].size; i++)
         {
-            gen(STO, 0, SymTable[n].size + 3 - 1 - i);//½«Êµ²ÎµÄÖµ´«¸øÐÎ²Î
+            gen(STO, 0, SymTable[n].size + 3 - 1 - i);//ï¿½ï¿½Êµï¿½Îµï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Î²ï¿½
         }
     }
 
-    Pcode[cx0].a = cx;//»ØÌî
-    INT_pos = cx;//¼ÇÂ¼µÈ´ý»ØÌîµÄÎ»ÖÃ
-    gen(INT, 0, dx);//¿ª±Ùdx¸ö¿Õ¼ä
+    Pcode[cx0].a = cx;//ï¿½ï¿½ï¿½ï¿½
+    INT_pos = cx;//ï¿½ï¿½Â¼ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+    gen(INT, 0, dx);//ï¿½ï¿½ï¿½ï¿½dxï¿½ï¿½ï¿½Õ¼ï¿½
 
     if(tx != 1)
     {
 //        cout << "n:" <<n<< endl;
-        SymTable[n].value = cx - 1 - SymTable[n].size;  //¹ý³ÌÈë¿ÚµØÖ·, »áÉú³ÉSymTable[n].size¸öÖ¸Áî
+        SymTable[n].value = cx - 1 - SymTable[n].size;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ö·, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SymTable[n].sizeï¿½ï¿½Ö¸ï¿½ï¿½
 //        cout << "SymTable[n].value:" << SymTable[n].value << endl;
     }
 
@@ -1338,14 +1338,14 @@ void Block()//-------Ó¦¸Ãok-----------
 }
 
 /**
- * <prog> ¡ú program <id>; <block>
+ * <prog> ï¿½ï¿½ program <id>; <block>
  */
-void Prog()//-------Ó¦¸Ãok-----------
+void Prog()//-------Ó¦ï¿½ï¿½ok-----------
 {
     ReadLine();
     if(unit.val != "program")
     {
-        addError(16);//È±ÉÙprogram
+        addError(16);//È±ï¿½ï¿½program
         if(unit.key != "id" && unit.val != ";")
             ReadLine();
     }
@@ -1359,23 +1359,23 @@ void Prog()//-------Ó¦¸Ãok-----------
         if(unit.key != "id")
         {
             ReadLine();
-            addError(6);//È±ÉÙid
+            addError(6);//È±ï¿½ï¿½id
         }
         else
         {
             ReadLine();            
             if(unit.val != ";")
-                addError(2);//È±ÉÙ;
+                addError(2);//È±ï¿½ï¿½;
             else
                 ReadLine();
         }
     }
     else
-        addError(6);//È±ÉÙid
+        addError(6);//È±ï¿½ï¿½id
     
     while(unit.val != "const" && unit.val != "var" && unit.val != "procedure" && unit.val != "begin" && unit.val != ";")
     {
-//        addError(17);//´æÔÚ¶àÓàµÄµ¥´Ê
+//        addError(17);//ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
         ReadLine();
     }
     if(unit.val == ";")
@@ -1392,12 +1392,12 @@ void OpenFile()
 //    out.open("ga_output.txt", ios::out);
     if(!in)
     {
-        cout << "ÊäÈëÎÄ¼þ´ò¿ªÊ§°Ü" << endl;
+        cout << "ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê§ï¿½ï¿½" << endl;
         exit(-1);
     }
 //    if(!out)
 //    {
-//        cout << "Êä³öÎÄ¼þ´ò¿ªÊ§°Ü" << endl;
+//        cout << "ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê§ï¿½ï¿½" << endl;
 //        exit(-1);
 //    }
 }
@@ -1413,7 +1413,7 @@ void CloseFile()
     target_output.close();
 }
 
-int grammar_main()
+int semantic_main()
 {
 //	LA();
     OpenFile();
@@ -1425,36 +1425,36 @@ int grammar_main()
         exit(2);
     }
 	
-    int count = 0; //¼ÇÂ¼Î´±»Ê¹ÓÃµÄ±äÁ¿¸öÊý
+    int count = 0; //ï¿½ï¿½Â¼Î´ï¿½ï¿½Ê¹ï¿½ÃµÄ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int i = 1;
-    while (SymTable[i].num && !SymTable[i].level)  //ÔÚ·ûºÅ±íÖÐ±éÀúµÚ0²ãÖ÷º¯ÊýµÄ·ûºÅ
+    while (SymTable[i].num && !SymTable[i].level)  //ï¿½Ú·ï¿½ï¿½Å±ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	{
-		if (SymTable[i].num == 1 && SymTable[i].type == VAR) //Èç¹ûÊÇ±äÁ¿ÇÒÖ»¶¨Òå¹ýÒ»´Î£¬ºóÐøÃ»ÓÐÊ¹ÓÃ£¬½øÐÐºóÐøÓÅ»¯
+		if (SymTable[i].num == 1 && SymTable[i].type == VAR) //ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î£ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ê¹ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ðºï¿½ï¿½ï¿½ï¿½Å»ï¿½
 		{
 			int j = i + 1;                                      
-			while (SymTable[j].num && !SymTable[j].level)    //ºóÐøËùÓÐ¶¨ÒåµÄ±äÁ¿Ïà¶ÔµØÖ·¶¼Òª¼õÒ»
+			while (SymTable[j].num && !SymTable[j].level)    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ö·ï¿½ï¿½Òªï¿½ï¿½Ò»
 			{
 				SymTable[j].adr--;                  
 				j++;
 			}
-			count++;    //Î´±»Ê¹ÓÃµÄ±äÁ¿¸öÊý¼ÓÒ»
+			count++;    //Î´ï¿½ï¿½Ê¹ï¿½ÃµÄ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»
 		}
 		i++;
 	}
 
-	Pcode[INT_pos].a -= count;     //»ØÌîINTÖ¸Áî¿ª±ÙµÄ¿Õ¼äÊý£¬Ò»±ßÉ¨ÃèÖ®ºó£¬½âÊÍÆ÷Ö®Ç°
+	Pcode[INT_pos].a -= count;     //ï¿½ï¿½ï¿½ï¿½INTÖ¸ï¿½î¿ªï¿½ÙµÄ¿Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½É¨ï¿½ï¿½Ö®ï¿½ó£¬½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®Ç°
 
     printPcode();
     printTable();
 
-	// cout << "ÊÇ·ñÊä³öÖÐ¼ä´úÂë:1 or 0" << endl;
+	// cout << "ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½:1 or 0" << endl;
 	// int flag;
 	// cin >> flag;
 	// if (flag)
 	// {
 	// 	printPcode();
 	// }
-	// cout << "ÊÇ·ñÊä³ö·ûºÅ±í:1 or 0" << endl;
+	// cout << "ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½:1 or 0" << endl;
 	// cin >> flag;
 	// if (flag)
 	// {

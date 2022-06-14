@@ -1,10 +1,10 @@
 SOURCE_CODE := prog.pas
 
-main:  icode_lex.o icode_gen.o actions.o main.o
-	cc -g -o main main.o icode_lex.o icode_gen.o actions.o
+grammar:  icode_lex.o icode_gen.o actions.o grammar.o
+	cc -g -o grammar grammar.o icode_lex.o icode_gen.o actions.o
 
-main.o: main.c
-	cc -g -c main.c
+grammar.o: grammar.c
+	cc -g -c grammar.c
 
 icode_lex.o: icode_lex.c pl0_global.h
 	cc -g -c icode_lex.c
@@ -18,7 +18,7 @@ actions.o: actions.c pl0_global.h
 table.grammar: LR_table_gen/grammar
 	python3 LR_table_gen/LR_table.py "LR_table_gen/grammar" > table.grammar
 
-all: main
+all: grammar
 
 clean:
-	rm -f main *.o _*
+	rm -f grammar *.o _*

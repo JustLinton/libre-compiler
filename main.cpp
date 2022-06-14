@@ -1,5 +1,5 @@
 #include"lexical.h"
-#include"grammar.h"
+#include"semantic.h"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     }
 
 	lexical_main(argv[1]);
-	grammar_main();
+	semantic_main();
 	
 	return 0;	
 } 

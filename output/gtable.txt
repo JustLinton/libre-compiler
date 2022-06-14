@@ -1,0 +1,4 @@
+N.	K.	V.	L.	A.
+x	1	0	0	3
+squ	1	0	0	4
+square	2	2	0	5
