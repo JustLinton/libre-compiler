@@ -245,11 +245,12 @@ void printPcode()   //输出中间代码
 void printTable()  //输出符号表
 {
     int i = 1;
+    gtable_output<< "N."<<'\t'<< "K."<<'\t'<< "V."<<'\t'<<"L."<<'\t'<<"A."<<endl;
     while(SymTable[i].num)
     {
 		// printf("名称:%s   类型:%d   数值:%d   层次:%d   相对地址:%d    出现次数:%d\n",
         // SymTable[i].name.c_str(), SymTable[i].type, SymTable[i].value,SymTable[i].level, SymTable[i].adr, SymTable[i].num);
-        gtable_output<< SymTable[i].name.c_str()<<'\t'<< SymTable[i].type<<'\t'<< SymTable[i].value<<'\t'<<SymTable[i].level<<'\t'<<SymTable[i].adr<<'\t'<<SymTable[i].num<<endl;
+        gtable_output<< SymTable[i].name.c_str()<<'\t'<< SymTable[i].type<<'\t'<< SymTable[i].value<<'\t'<<SymTable[i].level<<'\t'<<SymTable[i].adr<<endl;
         i++;    
     }
 }
@@ -1387,7 +1388,7 @@ void Prog()//-------应该ok-----------
  */
 void OpenFile()
 {
-    in.open("output/lex.txt", ios::in);
+    in.open("tmp/mid.lex", ios::in);
 //    out.open("ga_output.txt", ios::out);
     if(!in)
     {

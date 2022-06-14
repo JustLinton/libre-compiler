@@ -1,2 +1,2 @@
 g++ main.cpp -o plc
-./plc input/code0.txt
+./plc input/code2.txt

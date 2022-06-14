@@ -8,28 +8,28 @@ using namespace std;
 
 
 FILE *fp;
-fstream output("output/lex.txt", ios::out | ios::trunc); // Ð´ÎÄ¼þ;
+fstream output("tmp/mid.lex", ios::out | ios::trunc); // Ð´ï¿½Ä¼ï¿½;
 
 /**  
-* COP compare operator ±È½Ï·û
-* AOP assignment operator ¸³Öµ·û
-* OOP operation operator ²Ù×÷·û
-* EOP end operator ½áÊø·û
-* SOP separate operator ·Ö¸ô·û
+* COP compare operator ï¿½È½Ï·ï¿½
+* AOP assignment operator ï¿½ï¿½Öµï¿½ï¿½
+* OOP operation operator ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+* EOP end operator ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+* SOP separate operator ï¿½Ö¸ï¿½ï¿½ï¿½
 */
 
-// ¶¨Òå¹Ø¼ü×Ö£¬µÚÒ»¸öÊÇÕ¼Î»·û£¬ÎÞÊµ¼ÊÒâÒå
+// ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½Ö£ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Õ¼Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 const string key[] = {
     "", "program", "const", "var", "procedure", "begin", "if", 
     "else", "end", "while", "call", "read", "write", "then", "odd", "do"
 };
 
-// ÐÐ£¬ÁÐ
+// ï¿½Ð£ï¿½ï¿½ï¿½
 int row, col;
 
 bool isBC(char ch)
 {
-    if(ch == ' '){ // ¿Õ¸ñ
+    if(ch == ' '){ // ï¿½Õ¸ï¿½
         col++;
         return true;
     }
@@ -37,7 +37,7 @@ bool isBC(char ch)
         col += 4;
         return true;
     }
-    else if(ch == '\r' || ch == '\n') // »Ø³µ
+    else if(ch == '\r' || ch == '\n') // ï¿½Ø³ï¿½
     {
         row++;
         col = 1;
@@ -92,13 +92,13 @@ int lexical_main(const char* input_file)
 {
     fp = fopen(input_file, "r");
     if(!fp){
-        cout << "ÊäÈëÎÄ¼þ´ò¿ªÊ§°Ü" << endl;
+        cout << "ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê§ï¿½ï¿½" << endl;
         exit(1);
     }
 
     if(!output.is_open())
     {
-        cout << "Êä³öÎÄ¼þ´ò¿ªÊ§°Ü" << endl;
+        cout << "ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê§ï¿½ï¿½" << endl;
         exit(2);
     }
 
@@ -111,13 +111,13 @@ int lexical_main(const char* input_file)
         ch = fgetc(fp);
         if(ch == EOF) break;
 
-        //1.ÅÐ¶ÏÊÇ·ñÎª¿Õ°×
+        //1.ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½Õ°ï¿½
         if(isBC(ch)){
             strToken = "";
         }
-        //2.ÅÐ¶ÏÊÇ·ñÎª×ÖÄ¸
+        //2.ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½Ä¸
         else if(IsLetter(ch)){
-            //½«ËùÓÐ×Ö·ûÁ¬½ÓÆðÀ´
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             while(IsDigit(ch) || IsLetter(ch))
             {
                 Concat(strToken, ch);
@@ -125,7 +125,7 @@ int lexical_main(const char* input_file)
                 ch = fgetc(fp);
             }
             
-            //ÅÐ¶ÏÊÇ¹Ø¼ü×Ö»¹ÊÇID
+            //ï¿½Ð¶ï¿½ï¿½Ç¹Ø¼ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ID
             if (Reserve(strToken)){ 
                 output << strToken << " RESERVED " << row << ' ' << col << endl;
             }
@@ -136,19 +136,19 @@ int lexical_main(const char* input_file)
             strToken = "";
             Retract(ch);
         }
-        //3.ÅÐ¶ÏÊÇ·ñÎªÊý×Ö
+        //3.ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
         else if (IsDigit(ch)){
-            //½«ËùÓÐÊý×ÖÁ¬½ÓÆðÀ´
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			while (IsDigit(ch)) {
 				Concat(strToken, ch);
                 col++;
 				ch = fgetc(fp);
 			}
 
-            //ÒÔÊý×Ö¿ªÍ·µÄID£¬±¨´í£¡
+            //ï¿½ï¿½ï¿½ï¿½ï¿½Ö¿ï¿½Í·ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (IsLetter(ch)) {
 
-                //¼ÌÐø¶ÁÍê×Ö·û´®
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
                 while (IsLetter(ch) || IsDigit(ch)){
                     Concat(strToken, ch);
                     col++;
@@ -165,7 +165,7 @@ int lexical_main(const char* input_file)
             Retract(ch);
             strToken = "";
         }
-        //4.ÅÐ¶ÏÊÇ·ñÎªÆäËû×Ö·û
+        //4.ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
         else{
             if(ch == '=')
             {
@@ -253,7 +253,7 @@ int lexical_main(const char* input_file)
     fclose(fp);
     output.close();
 
-    printf("-----´Ê·¨·ÖÎöÒÑÍê³É£¬½á¹û´æÖÁla_output.txtÎÄ¼þÖÐ-----\n");
+    printf("-----ï¿½Ê·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½la_output.txtï¿½Ä¼ï¿½ï¿½ï¿½-----\n");
 
     return 0;
 }

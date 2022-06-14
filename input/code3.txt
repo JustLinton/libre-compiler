@@ -30,5 +30,5 @@ begin
 end
 
 begin
-    call primes();
+    call primes()
 end

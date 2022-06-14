@@ -12,6 +12,6 @@ begin
     begin
       call  p();
       write(2*c);
-      read(b);
+      read(b)
      end
 end
