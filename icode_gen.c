@@ -326,7 +326,7 @@ void print_codes(FILE *out)
     int i;
     for (i = 0; i < code_n; i++)
     {
-        fprintf(out, "[%2d] %5s ", i, code_name[codes[i].instr]);
+        fprintf(out, "%2d | %5s ", i+100, code_name[codes[i].instr]);
         print_operand(codes[i].s1, out);
         print_operand(codes[i].s2, out);
         print_operand(codes[i].dst, out);
@@ -368,8 +368,6 @@ int icode_gen(FILE* intercode) {
 
         if (nxt_action > state_n) {
             // table_print_all(out);
-
-            fputs("\n===============\ncodes:\n", intercode);
 
             print_codes(intercode);
 

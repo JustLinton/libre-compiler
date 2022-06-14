@@ -253,7 +253,6 @@ int lexical_main(const char* input_file)
     fclose(fp);
     output.close();
 
-    printf("-----�ʷ���������ɣ��������la_output.txt�ļ���-----\n");
 
     return 0;
 }

@@ -408,7 +408,7 @@ void interpreter()
 				P = Pcode[I].a;
 			break;
 		case 8: //RED L ��a �������ж���һ�����ݲ��������
-            cout << "����������������һ������ֵ������:";
+            cout << "input prompt:";
 			cin >> t;
 			dataStack[Pcode[I].a + getBase(B, Pcode[I].l)] = t;
 			break;
