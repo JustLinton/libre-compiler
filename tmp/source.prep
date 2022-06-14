@@ -1,4 +1,4 @@
-program code0;
+program main;
 const a:=10;
 var d,e,f;
 procedure p();

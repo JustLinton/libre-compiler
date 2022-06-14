@@ -6,5 +6,5 @@ make
 ./grammar ./PL0_code/PL0_code0.in
 
 #code2
-g++ main.cpp -o plc
-./plc input/code2.txt
+g++ main.cpp -o main
+./main input/code3.txt

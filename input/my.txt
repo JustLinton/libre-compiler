@@ -1,9 +1,0 @@
-program code2;
-var a, b, c;
-
-begin
-    b := 2;
-    c := 3;
-    a := b * c + b * c;
-    write(a)
-end
